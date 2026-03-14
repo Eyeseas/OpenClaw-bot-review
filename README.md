@@ -95,6 +95,29 @@ docker run -d -p 3000:3000 openclaw-dashboard
 docker run -d --name openclaw-dashboard -p 3000:3000 -e OPENCLAW_HOME=/opt/openclaw -v /path/to/openclaw:/opt/openclaw openclaw-dashboard
 ```
 
+## GitHub Actions Auto Publish
+
+This repository now includes a GitHub Actions workflow at `.github/workflows/docker-publish.yml` to build the existing `Dockerfile` and publish the image to GitHub Container Registry.
+
+- `push` to `main`: build and push `ghcr.io/eyeseas/openclaw-bot-review:latest`
+- `push` tag `v*`: build and push version tags such as `v1.2.3`, `v1.2`, `v1`
+- `pull_request` to `main`: build only, no push
+
+The workflow uses the built-in `GITHUB_TOKEN`, so no extra registry secret is required in the common case.
+
+Pull the latest image:
+
+```bash
+docker pull ghcr.io/eyeseas/openclaw-bot-review:latest
+```
+
+Create a release image by pushing a Git tag:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
 ---
 
 # OpenClaw Bot Dashboard（中文）
